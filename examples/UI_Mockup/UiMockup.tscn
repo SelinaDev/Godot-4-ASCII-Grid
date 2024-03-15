@@ -1,0 +1,156 @@
+[gd_scene load_steps=16 format=3 uid="uid://bqfmink7nn8bq"]
+
+[ext_resource type="Script" path="res://examples/UI_Mockup/UiMockup.gd" id="1_fkuvn"]
+[ext_resource type="Script" path="res://addons/ascii_grid/term_rect.gd" id="1_mxp7t"]
+[ext_resource type="Script" path="res://addons/ascii_grid/term_container_hbox.gd" id="2_4kb2r"]
+[ext_resource type="Texture2D" uid="uid://cvih7i3m23qn3" path="res://examples/UI_Mockup/terminus_8x16.png" id="2_yxg0a"]
+[ext_resource type="Script" path="res://addons/ascii_grid/term_container_vbox.gd" id="3_kxddn"]
+[ext_resource type="Script" path="res://addons/ascii_grid/term_container_border_config.gd" id="4_tlnej"]
+[ext_resource type="Script" path="res://addons/ascii_grid/term_container_title.gd" id="5_1ns4l"]
+[ext_resource type="Script" path="res://addons/ascii_grid/term_cell_map.gd" id="6_fibfa"]
+[ext_resource type="Script" path="res://addons/ascii_grid/term_label.gd" id="7_7e13d"]
+[ext_resource type="Script" path="res://addons/ascii_grid/term_progress.gd" id="8_6xm3b"]
+[ext_resource type="Script" path="res://addons/ascii_grid/term_single_cell.gd" id="11_kp205"]
+
+[sub_resource type="Resource" id="Resource_je84p"]
+script = ExtResource("4_tlnej")
+top_border = "─"
+bottom_border = "─"
+left_border = "│"
+right_border = "│"
+top_left_corner = "┌"
+top_right_corner = "┐"
+bottom_left_corner = "└"
+bottom_right_corner = "┘"
+fg_color = Color(1, 1, 1, 1)
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Resource" id="Resource_kv3h7"]
+script = ExtResource("5_1ns4l")
+title = "┤Player Info├"
+fg_color = Color(1, 1, 1, 1)
+bg_color = Color(0, 0, 0, 1)
+alignment = 1
+
+[sub_resource type="Resource" id="Resource_7hfsj"]
+script = ExtResource("4_tlnej")
+top_border = "─"
+bottom_border = "─"
+left_border = "│"
+right_border = "│"
+top_left_corner = "┌"
+top_right_corner = "┐"
+bottom_left_corner = "└"
+bottom_right_corner = "┘"
+fg_color = Color(1, 1, 1, 1)
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Resource" id="Resource_h2xgo"]
+script = ExtResource("5_1ns4l")
+title = "─Messages"
+fg_color = Color(1, 1, 1, 1)
+bg_color = Color(0, 0, 0, 1)
+alignment = 0
+
+[node name="UiMockup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fkuvn")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TermRect" type="ColorRect" parent="." node_paths=PackedStringArray("term_root")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mxp7t")
+font = ExtResource("2_yxg0a")
+term_root = NodePath("../TermRoot")
+
+[node name="TermRoot" type="Node" parent="."]
+script = ExtResource("2_4kb2r")
+
+[node name="LeftColumn" type="Node" parent="TermRoot"]
+script = ExtResource("3_kxddn")
+border = SubResource("Resource_je84p")
+title = SubResource("Resource_kv3h7")
+fixed_size = Vector2i(21, 0)
+
+[node name="TermLabel" type="Node" parent="TermRoot/LeftColumn"]
+script = ExtResource("7_7e13d")
+text = "
+Godette
+Robot
+Level 4"
+
+[node name="TermLabel2" type="Node" parent="TermRoot/LeftColumn"]
+script = ExtResource("7_7e13d")
+text = "
+HP: 20/30"
+fg_color = Color(1, 0, 0, 1)
+
+[node name="TermProgress" type="Node" parent="TermRoot/LeftColumn"]
+script = ExtResource("8_6xm3b")
+max_value = 30
+value = 20
+fg_color_filled = Color(1, 0, 0, 1)
+fg_color_empty = Color(1, 0, 0, 1)
+
+[node name="TermLabel3" type="Node" parent="TermRoot/LeftColumn"]
+script = ExtResource("7_7e13d")
+text = "
+MP: 4/5"
+fg_color = Color(0, 0, 1, 1)
+
+[node name="TermProgress2" type="Node" parent="TermRoot/LeftColumn"]
+script = ExtResource("8_6xm3b")
+max_value = 5
+value = 4
+fg_color_filled = Color(0, 0, 1, 1)
+fg_color_empty = Color(0, 0, 1, 1)
+
+[node name="MainColumn" type="Node" parent="TermRoot"]
+script = ExtResource("3_kxddn")
+
+[node name="TermCellMap" type="Node" parent="TermRoot/MainColumn"]
+script = ExtResource("6_fibfa")
+
+[node name="TermSingleCell" type="Node" parent="TermRoot/MainColumn/TermCellMap"]
+script = ExtResource("11_kp205")
+position = Vector2i(20, 20)
+character = "@"
+
+[node name="MessageBox" type="Node" parent="TermRoot/MainColumn"]
+script = ExtResource("3_kxddn")
+border = SubResource("Resource_7hfsj")
+title = SubResource("Resource_h2xgo")
+fixed_size = Vector2i(0, 12)
+
+[node name="TermLabel" type="Node" parent="TermRoot/MainColumn/MessageBox"]
+script = ExtResource("7_7e13d")
+text = "Godette received 42 XP!"
+fg_color = Color(0, 1, 1, 1)
+
+[node name="TermLabel2" type="Node" parent="TermRoot/MainColumn/MessageBox"]
+script = ExtResource("7_7e13d")
+text = "Godette is pleased with being drawn on an ASCII terminal ☺"
+fg_color = Color(0, 1, 0, 1)
+
+[node name="TermLabel3" type="Node" parent="TermRoot/MainColumn/MessageBox"]
+script = ExtResource("7_7e13d")
+text = "Godette wonders if this very long message will wrap correctly once the window is resized ...?"
+fg_color = Color(1, 0, 1, 1)
